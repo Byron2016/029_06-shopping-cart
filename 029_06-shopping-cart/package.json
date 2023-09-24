@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "lint": "eslint .",
-    "lintf": "eslint . --fix",
+    "lint": "eslint . --ext js,jsx",
+    "lintf": "eslint . --ext js,jsx --fix",
     "prett": "prettier . --check",
     "prettw": "prettier . --write"
   },

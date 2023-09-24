@@ -169,3 +169,16 @@ and the other help that you can find into **Reference** section.
           "extends": [ "./node_modules/@eslint/eslintrc.json"]
           }
         ```
+
+      - add scripts to **package.json** file.
+
+        ```json
+        ....
+        "scripts": {
+          "dev": "vite",
+          "lint": "eslint . --ext js,jsx",
+          "lintf": "eslint . --ext js,jsx --fix",
+          "prett": "prettier . --check",
+          "prettw": "prettier . --write"
+        },
+        ```
