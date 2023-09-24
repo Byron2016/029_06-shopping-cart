@@ -419,3 +419,44 @@ Haz uso de useContext para evitar pasar props innecesarias.
         )
       }
       ```
+
+    - One form to solve **prop-drilling's problem** is with **composition** (31.50)
+
+      - in **Header** consponents instead to pass **Filters** we can use **children.** and pass **children** like prop.
+
+        ```js
+        export function Header({ children }) {
+          return (
+            <header>
+              <h1>React Shopping Cart 🚗</h1>
+              {children}
+            </header>
+          );
+        }
+        ```
+
+      - in **App** we can do composition inside **Header** consponent instead to pass **Filters** we can use **children.** and pass **children** like a prop.
+
+        ```js
+        ....
+        import { Header } from './components/Header'
+        import { Filters } from './components/Filters'
+
+        export default function App() {
+          ....
+          const [filters, setFilters] = useState({
+            category: 'all',
+            minPrice: 0,
+            maxPrice: 100000,
+          })
+          ....
+          return (
+            <>
+              <Header>
+                <Filters onChange={setFilters} />
+              </Header>
+              <Products products={filterdProducts} />
+            </>
+          )
+        }
+        ```
