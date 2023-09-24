@@ -131,3 +131,41 @@ and the other help that you can find into **Reference** section.
         </>
       );
       ```
+
+    - linter and prettier
+
+      - pnpm i -D eslint
+      - pnpm i -D standard
+      - pnpm i -D prettier eslint-config-prettier
+      - create and configurete files
+
+        - **.eslintignore**
+
+        ```json
+        node_modules
+        ```
+
+        - **.prettierignore**
+
+        ```json
+        node_modules
+        pnpm-lock.yaml
+        ```
+
+        - **.prettierrc.json**
+
+        ```json
+        {
+          "semi": false,
+          "singleQuote": true
+        }
+        ```
+
+      - add eslintConfig to **package.json** file.
+
+        ```json
+        ....
+        "eslintConfig": {
+          "extends": [ "./node_modules/@eslint/eslintrc.json"]
+          }
+        ```
