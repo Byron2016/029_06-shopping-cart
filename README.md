@@ -205,4 +205,217 @@ Haz uso de useContext para evitar pasar props innecesarias.
         ```
 
 - show a list of products.
--
+
+  - Create **Products** component.
+
+    ```js
+    import "./Products.css";
+    import { AddToCartIcon, RemoveFromCartIcon } from "./Icons.jsx";
+
+    export function Products({ products }) {
+      return (
+        <main className="products">
+          <ul>
+            {products.slice(0, 10).map((product) => (
+              <li key={product.id}>
+                <img src={product.thumbnail} alt={product.description} />
+                <div>
+                  <strong>{product.title}</strong> - ${product.price}
+                </div>
+                <div>
+                  <button>
+                    <AddToCartIcon />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </main>
+      );
+    }
+    ```
+
+  - Add **Products** component to **App**.
+
+    ```js
+    import { useState } from "react";
+    import "./App.css";
+    import { Products } from "./components/Products";
+
+    import { products as initialProducts } from "./mocks/products.json";
+
+    export default function App() {
+      const [products] = useState(initialProducts);
+      const [filters, setFilters] = useState({
+        category: "all",
+        minPrice: 0,
+        maxPrice: 100000,
+      });
+
+      const filterProducts = (products) => {
+        return products.filter((products) => {
+          return (
+            products.price >= filters.minPrice &&
+            products.price <= filters.maxPrice &&
+            (filters.category === "all" ||
+              products.category === filters.category)
+          );
+        });
+      };
+
+      const filterdProducts = filterProducts(products);
+
+      return (
+        <>
+          <Products products={filterdProducts} />
+        </>
+      );
+    }
+    ```
+
+- Add Filters
+
+  - First Approach
+
+    - There are some problems with this approac:
+
+      - prop drilling
+      - Two true origins
+      - We are passing the status update React function **setFilters** to a child component, and changing its name between components.
+
+    - Add a **State** to **App** component.
+
+      ```js
+      import { useState } from "react";
+      ....
+
+      export default function App() {
+        ....
+        const [filters, setFilters] = useState({
+          category: "all",
+          minPrice: 0,
+          maxPrice: 100000,
+        });
+
+        ....
+      }
+      ```
+
+    - Create a function that is going to change filter object values
+
+      ```js
+      ....
+
+      export default function App() {
+        ....
+
+        const filterProducts = (products) => {
+          return products.filter((products) => {
+            return (
+              products.price >= filters.minPrice &&
+              products.price <= filters.maxPrice &&
+              (filters.category === "all" ||
+                products.category === filters.category)
+            );
+          });
+        };
+
+        const filterdProducts = filterProducts(products);
+
+        return (
+          <>
+            <h1>Shopping Cart 🚗</h1>
+            <Products products={filterdProducts} />
+          </>
+        );
+      }
+      ```
+
+    - Crerate a **Filters** component
+
+      ```js
+      import { useState } from "react";
+      import "./Filters.css";
+
+      export function Filters({ onChange }) {
+        const [minPrice, setMinPrice] = useState(0);
+
+        const handleChanceMinPrice = (event) => {
+          // aquí hay un error
+          // DOS FUENTES DE LA VERDAD 26.41
+          setMinPrice(event.target.value);
+          onChange((prevState) => ({
+            ...prevState,
+            minPrice: event.target.value,
+          }));
+        };
+
+        const handleChanceCategory = (event) => {
+          // aquí hay un error
+          // 27.37 estamos pasando la función de  actualización estado
+          // nativa de React a un componente hijo
+          onChange((prevState) => ({
+            ...prevState,
+            category: event.target.value,
+          }));
+        };
+
+        return (
+          <section className="filters">
+            <div>
+              <label htmlFor="price">Base price:</label>
+              <input
+                type="range"
+                id="price"
+                min="0"
+                max="1300"
+                onChange={handleChanceMinPrice}
+              />
+              <span> ${minPrice}</span>
+            </div>
+
+            <div>
+              <label htmlFor="category">Category:</label>
+              <select id="category" onChange={handleChanceCategory}>
+                <option value="all">All</option>
+                <option value="laptops">Laptops</option>
+                <option value="smartphones">Celular Phones</option>
+              </select>
+            </div>
+          </section>
+        );
+      }
+      ```
+
+    - Crerate a **Header** component.
+
+      ```js
+      import { Filters } from "./Filters.jsx";
+
+      export function Header({ changeFilters }) {
+        return (
+          <header>
+            <h1>React Shopping Cart 🚗</h1>
+            <Filters onChange={changeFilters} />
+          </header>
+        );
+      }
+      ```
+
+    - Import **Header** component to **App** component.
+
+      ```js
+      ....
+      import { Header } from './components/Header'
+
+      export default function App() {
+        ....
+
+        return (
+          <>
+            <Header changeFilters={setFilters} />
+            <Products products={filterdProducts} /    >
+          </>
+        )
+      }
+      ```
