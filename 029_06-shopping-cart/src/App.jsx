@@ -1,9 +1,13 @@
 import './App.css'
+import { Products } from './components/Products'
+
+import { products } from './mocks/products.json'
 
 export default function App() {
   return (
     <>
-      <p className="componente">Hi from App.jsx</p>
+      <h1>Shopping Cart 🚗</h1>
+      <Products products={products} />
     </>
   )
 }

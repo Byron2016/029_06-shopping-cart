@@ -203,3 +203,6 @@ Haz uso de useContext para evitar pasar props innecesarias.
           "prettw": "prettier . --write"
         },
         ```
+
+- show a list of products.
+-
