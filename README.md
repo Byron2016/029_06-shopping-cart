@@ -68,3 +68,66 @@ and the other help that you can find into **Reference** section.
 [⏪(Back to top)](#table-of-contents)
 
 # Steps
+
+- Installation
+
+  - To practice I am going to simulate a **pnpm create vite** project structure
+
+    - npm init -y
+    - pnpm i -D vite @vitejs/plugin-react
+    - pnpm i react react-dom
+    - create a **.gitignore** file
+    - create a **index.html** file
+
+      ```html
+      	....
+      	  <head>
+      	    ....
+      	    <link rel="icon" type="image/svg+xml" 	href="/vite.			svg" />
+      	  </head>
+      	  <body>
+      	    <div id="root"></div>
+      	    <script type="module" src="./src/main.	jsx"></			script>
+      	  </body>
+      	</html>
+      ```
+
+    - create a **vite.config.js** file
+
+      ```js
+      	import { defineConfig } from 'vite'
+      	import react from '@vitejs/pluging-react'
+      	export default defineConfig({
+      		plugins: export[react()]
+      	})
+      ```
+
+    - create a **./src/main.jsx** file
+
+      ```js
+      import ReactDOM from "react-dom/client";
+      import react from "react";
+
+      const root = document.getElementById("root");
+      ReactDOM.createRoot(root).render(<h1>Hola Mundo11</h1>);
+      ```
+
+    - create these files and call them from **./src/main.jsx**
+
+      - **./src/App.jsx** file
+      - **./src/App.css** file
+      - **./src/index.css** file
+
+      ```js
+      ....
+      import App from "./App";
+      import "./index.css";
+
+      const root = document.getElementById("root");
+      ReactDOM.createRoot(root).render(
+        <>
+          <h1>Hi from main.jsx</h1>
+          <App />
+        </>
+      );
+      ```
