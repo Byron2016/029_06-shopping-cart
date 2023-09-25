@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import './Filters.css'
 
 export function Filters({ onChange }) {
   const [minPrice, setMinPrice] = useState(0)
+  const minPriceFilterId = useId()
+  const categoryFilterId = useId()
 
   const handleChanceMinPrice = (event) => {
     // aquí hay un error
@@ -25,25 +27,25 @@ export function Filters({ onChange }) {
   }
 
   return (
-    <section className="filters">
+    <section className='filters'>
       <div>
-        <label htmlFor="price">Base price:</label>
+        <label htmlFor={minPriceFilterId}>Base price:</label>
         <input
-          type="range"
-          id="price"
-          min="0"
-          max="1300"
+          type='range'
+          id={minPriceFilterId}
+          min='0'
+          max='1300'
           onChange={handleChanceMinPrice}
         />
         <span> ${minPrice}</span>
       </div>
 
       <div>
-        <label htmlFor="category">Category:</label>
-        <select id="category" onChange={handleChanceCategory}>
-          <option value="all">All</option>
-          <option value="laptops">Laptops</option>
-          <option value="smartphones">Celular Phones</option>
+        <label htmlFor={categoryFilterId}>Category:</label>
+        <select id={categoryFilterId} onChange={handleChanceCategory}>
+          <option value='all'>All</option>
+          <option value='laptops'>Laptops</option>
+          <option value='smartphones'>Celular Phones</option>
         </select>
       </div>
     </section>

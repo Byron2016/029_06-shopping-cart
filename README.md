@@ -178,7 +178,8 @@ Haz uso de useContext para evitar pasar props innecesarias.
         ```json
         {
           "semi": false,
-          "singleQuote": true
+          "singleQuote": true,
+          "jsxSingleQuote": true
         }
         ```
 
@@ -460,3 +461,47 @@ Haz uso de useContext para evitar pasar props innecesarias.
           )
         }
         ```
+
+- useId hook
+
+  - This is a new **hook\* from **React 18\*\*.
+  - It will generate a **unique id** that is going to be always the same.
+  - This **unique id** works with server side rendering.
+  - It use hook's call order to define a unique identifier.
+  - This **DOES NOT WORK** like a unique identifier for a list of element to be displayed.
+    \*\*
+
+    ````js
+    import { useId, useState } from 'react'
+    ....
+
+        export function Filters({ onChange }) {
+          ....
+          const minPriceFilterId = useId()
+          const categoryFilterId = useId()
+
+          ....
+
+          return (
+            <section className='filters'>
+              <div>
+                <label htmlFor={minPriceFilterId}   >Base price:</label>
+                <input
+                  type='range'
+                  id={minPriceFilterId}
+                  ....
+                />
+                ....
+              </div>
+
+              <div>
+                <label htmlFor={categoryFilterId}   >Category:</label>
+                <select id={categoryFilterId}     onChange={handleChanceCategory}>
+                  ....
+                </select>
+              </div>
+            </section>
+          )
+        }
+        ```
+    ````
